@@ -18,25 +18,47 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _buildBody(){
+  Widget _buildBody() {
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.all(16.0),
-        child: OptionWidget(
-          textColor: Colors.black,
-          selectedColor: Colors.red,
-          unselectedColor: Colors.grey,
-          groupValue: _selectedValue,
-          scrollDirection: Axis.vertical,
-          items: [
-            OptionValueModel(title: "A", value: "a"),
-            OptionValueModel(title: "B", value: "b"),
-            OptionValueModel(title: "C", value: "c"),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            OptionWidget(
+              textColor: Colors.black,
+              selectedColor: Colors.red,
+              unselectedColor: Colors.grey,
+              groupValue: _selectedValue,
+              scrollDirection: Axis.horizontal,
+              items: [
+                OptionValueModel(title: "A", value: "a"),
+                OptionValueModel(title: "B", value: "b"),
+                OptionValueModel(title: "C", value: "c"),
+              ],
+              onChanged: (value) {
+                //ketika selected item berubah
+                print(value);
+              },
+            ),
+            Divider(),
+            OptionWidget(
+              textColor: Colors.black,
+              selectedColor: Colors.red,
+              unselectedColor: Colors.grey,
+              groupValue: _selectedValue,
+              scrollDirection: Axis.vertical,
+              items: [
+                OptionValueModel(title: "A", value: "a"),
+                OptionValueModel(title: "B", value: "b"),
+                OptionValueModel(title: "C", value: "c"),
+              ],
+              onChanged: (value) {
+                //ketika selected item berubah
+                print(value);
+              },
+            ),
           ],
-          onChanged: (value){
-            //ketika selected item berubah
-            print(value);
-          },
         ),
       ),
     );

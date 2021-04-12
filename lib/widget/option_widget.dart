@@ -16,7 +16,7 @@ class OptionWidget extends StatefulWidget {
     @required this.unselectedColor,
     @required this.groupValue,
     @required this.items,
-    this.scrollDirection,
+    this.scrollDirection = Axis.horizontal,
     this.onChanged,
   });
 
@@ -33,7 +33,7 @@ class _OptionWidgetState extends State<OptionWidget> {
     _groupValue = widget.groupValue;
   }
 
-  void _onItemSelected(dynamic value){
+  void _onItemSelected(dynamic value) {
     setState(() {
       _groupValue = value;
     });
@@ -42,11 +42,22 @@ class _OptionWidgetState extends State<OptionWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.scrollDirection == Axis.horizontal)
+      return SizedBox(
+        height: 42.0,
+        child: _buildItems(),
+      );
+    else
+      return _buildItems();
+  }
+
+  Widget _buildItems() {
     return ListView.builder(
       shrinkWrap: true,
-      primary: false,
-      physics: const NeverScrollableScrollPhysics(),
-      scrollDirection: widget.scrollDirection ?? Axis.horizontal,
+      physics: widget.scrollDirection == Axis.vertical
+          ? const NeverScrollableScrollPhysics()
+          : const ClampingScrollPhysics(),
+      scrollDirection: widget.scrollDirection,
       itemCount: widget.items.length,
       itemBuilder: (context, index) {
         OptionValueModel o = widget.items[index];
@@ -63,9 +74,11 @@ class _OptionWidgetState extends State<OptionWidget> {
                   ? widget.selectedColor
                   : widget.unselectedColor,
             ),
-            child: Text(
-              "${o.title}",
-              style: TextStyle(color: widget.textColor),
+            child: Center(
+              child: Text(
+                "${o.title}",
+                style: TextStyle(color: widget.textColor),
+              ),
             ),
           ),
           onTap: () => _onItemSelected(o.value),
